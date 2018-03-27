@@ -1,0 +1,33 @@
+        location = []
+        for emp in mydata:
+            empDict = {
+                "number": emp[0],
+                "name": emp[1],
+                "address": emp[2],
+                "latitude": emp[3],
+                "longitude": emp[4]}
+            location.append(empDict)
+        for i in location:
+            print(location[i][i])
+    
+    return jsonify(location)
+    
+    
+            number = mydata['number']
+        name = mydata['name']
+        address = mydata['address']
+        lat = mydata['latitude']
+        long = mydata['longitude']
+        
+    return jsonify({'result' : 'success', 'number' : number, 'name' : name, 'address' : address})
+       
+       
+               location = []
+        for emp in mydata:
+            empDict = {
+                "number": [0],
+                "name": emp[1],
+                "address": emp[2],
+                "latitude": emp[3],
+                "longitude": emp[4]}
+            location.append(empDict)
