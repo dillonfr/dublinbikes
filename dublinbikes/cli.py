@@ -20,7 +20,7 @@ def main(args=None):
     for i in stationList:
         k = dublinbikes.single_station_info(i)
         dubStationInfo.add_station_info(k)
-    dublinbikes.close_db()
+    dubStationInfo.close_db()
     
     
 """

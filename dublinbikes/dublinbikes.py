@@ -15,7 +15,7 @@ from datetime import datetime
 staticData = json.load(open('Dublin.json'))
 
 dubUrl = "https://api.jcdecaux.com/vls/v1/stations/30?contract=Dublin&apiKey=066552409dad0809af4e338d67817a8d931d697d"
-
+apiKey = "066552409dad0809af4e338d67817a8d931d697d"
         
 def query_API(stationNumber):
     r = requests.get('https://api.jcdecaux.com/vls/v1/stations/' + str(stationNumber) + '?contract=Dublin&apiKey=' + apiKey)
@@ -57,12 +57,15 @@ def info_csv():
     
 def single_station_info(stationNumber):
     g = query_API(stationNumber) 
+    d = datetime.now().date()
     station_info = {'number': g["number"], 
                     'name': g["name"], 
                     'latitude': g["position"]["lat"], 
                     'longitude': g["position"]["lng"], 
                     'bikes': g["available_bikes"], 
-                    'stands': g["available_bike_stands"]}
+                    'stands': g["available_bike_stands"],
+                    'time': timestamp_to_ISO(g["last_update"]),
+                    'date': d}
     
     
     return station_info
@@ -75,6 +78,14 @@ class Database:
         
         from mysql.connector import errorcode
         try:
+            dhost="dublinbikes.cww5dmspazsv.eu-west-1.rds.amazonaws.com"
+            dport=3306
+            dbname="dublinbikes"
+            duser="dbuser"
+            dpassword="comp30670"
+            cnx = mysql.connector.connect(user = duser, password = dpassword, 
+                                      host = dhost, database=dbname)
+            
             
             self.connection = cnx
             self.cur = cnx.cursor()
@@ -92,8 +103,8 @@ class Database:
          
         
     def add_station_info(self, statInfo):
-        query = "INSERT INTO stations (number, name, latitude, longitude, bikes_available, stands_available) " \
-                    "VALUES (%(number)s, %(name)s, %(latitude)s, %(longitude)s, %(bikes)s, %(stands)s) "
+        query = "INSERT INTO stations (number, name, latitude, longitude, bikes_available, stands_available, time, date) " \
+                    "VALUES (%(number)s, %(name)s, %(latitude)s, %(longitude)s, %(bikes)s, %(stands)s, %(time)s, %(date)s) "
         
         self.cur.execute(query, statInfo)
         self.connection.commit()
