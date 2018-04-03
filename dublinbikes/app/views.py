@@ -4,7 +4,6 @@ import os
 import json
 import sys
 import re
-from astropy.wcs.docstrings import lat
 
 
 
