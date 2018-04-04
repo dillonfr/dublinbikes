@@ -6,6 +6,7 @@
 </head>
 
 <body>
+    
     <h1>Welcome to {{ title }}!</h1>
     <h6>Flask test, you are: {{ user }}</h6>
 
@@ -64,6 +65,16 @@
         
 
     </script>
+    
+     <?php
+        require_once 'dbconfig.php';
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+    } 
+    ?>
    
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMns2Y33xj53IYHDDwQQb5P-R2mi5nxQk&callback=myMap"></script>
 
