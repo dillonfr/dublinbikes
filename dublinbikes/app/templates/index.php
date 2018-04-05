@@ -6,9 +6,22 @@
 </head>
 
 <body>
-    
+
     <h1>Welcome to {{ title }}!</h1>
     <h6>Flask test, you are: {{ user }}</h6>
+    
+        
+     <?php
+        echo "<p>hello world</p>";
+        require_once 'dbconfig.php';
+        
+
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        if ($conn->connect_error) {
+            die("Connection failed: " . $conn->connect_error);
+    } 
+    ?>
 
     <div id="googleMap"></div>
 
@@ -23,59 +36,48 @@
                 zoom: 13,
             };
             var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-			
+
             var marker = new google.maps.Marker({
                 position: myLatLng,
                 map: map,
                 title: 'Dublin City'
             });
-            
+
             var number = JSON.parse('{{ number|safe }}');
             var address = JSON.parse('{{ address|safe }}');
             var lat = JSON.parse('{{ lat|safe }}');
             var long = JSON.parse('{{ long|safe }}');
             console.log(number[1] + address);
-            
-            var infowindow = new google.maps.InfoWindow(), marker, i
-            
-            for (var i=0; i<lat.length; i++) {
-            	var latLng = new google.maps.LatLng(lat[i], long[i]);
-            	
-            	var marker = new google.maps.Marker({
-            		position: latLng,
-            		map: map,
-            		title: 'Dublin City'
-            	});
-            	
-            	
-            	 google.maps.event.addListener(marker, 'click', (function( marker, i ) {
-            	 	return function() {
-            	 		infowindow.setContent( "Stop: " + number[i] + "<br>" + address[i] );
-            	 		infowindow.open( map, marker );
-            	 	}
-            	 }) ( marker, i ));
-            	 
-            }
-            
-            
-            	
-            }
-	google.maps.event.addDomListener(window, 'load', myMap);
-            
-        
 
+            var infowindow = new google.maps.InfoWindow(),
+                marker, i
+
+            for (var i = 0; i < lat.length; i++) {
+                var latLng = new google.maps.LatLng(lat[i], long[i]);
+
+                var marker = new google.maps.Marker({
+                    position: latLng,
+                    map: map,
+                    title: 'Dublin City'
+                });
+
+
+                google.maps.event.addListener(marker, 'click', (function(marker, i) {
+                    return function() {
+                        infowindow.setContent("Stop: " + number[i] + "<br>" + address[i]);
+                        infowindow.open(map, marker);
+                    }
+                })(marker, i));
+
+            }
+
+
+
+        }
+        google.maps.event.addDomListener(window, 'load', myMap);
     </script>
-    
-     <?php
-        require_once 'dbconfig.php';
 
-        $conn = new mysqli($servername, $username, $password, $dbname);
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-    } 
-    ?>
-   
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMns2Y33xj53IYHDDwQQb5P-R2mi5nxQk&callback=myMap"></script>
 
 </body>

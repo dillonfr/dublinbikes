@@ -5,24 +5,26 @@ import sys
 sys.path.append('.')
 import click
 import dublinbikes
+import mysql.connector
+import datetime
+import time
+from mysql.connector import errorcode
 
 
 @click.command()
 def main(args=None):
     """Console script for dublinbikes."""
-    
-   
-    import mysql.connector
-    from mysql.connector import errorcode
-    
-    dubStationInfo = dublinbikes.Database()
     stationList = dublinbikes.stations_list('Dublin.json')
-    for i in stationList:
-        k = dublinbikes.single_station_info(i)
-        dubStationInfo.add_station_info(k)
+    
+    while True:   
+        dubStationInfo = dublinbikes.Database()
+        for i in stationList:
+            k = dublinbikes.single_station_info(i)
+            dubStationInfo.add_station_info(k)
+        
+        time.sleep(300)
+
     dubStationInfo.close_db()
-    
-    
 """
     try:
         dhost="dublinbikes.cww5dmspazsv.eu-west-1.rds.amazonaws.com"
@@ -60,5 +62,4 @@ def main(args=None):
         cnx.close()
  """ 
    
-if __name__ == "__main__":
-    sys.exit(main())  
+main()

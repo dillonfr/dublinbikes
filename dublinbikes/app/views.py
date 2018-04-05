@@ -41,5 +41,5 @@ def index():
     returnDict = {}
     returnDict['user'] = 'User123'
     returnDict['title'] = 'Dublin Bikes'
-    return render_template("index.html", **returnDict, number=number, address=address, lat=lat, long=long)
+    return render_template("index.php", **returnDict, number=number, address=address, lat=lat, long=long)
 

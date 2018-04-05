@@ -58,13 +58,14 @@ def info_csv():
 def single_station_info(stationNumber):
     g = query_API(stationNumber) 
     d = datetime.now().date()
+    t = datetime.now().time()
     station_info = {'number': g["number"], 
                     'name': g["name"], 
                     'latitude': g["position"]["lat"], 
                     'longitude': g["position"]["lng"], 
                     'bikes': g["available_bikes"], 
                     'stands': g["available_bike_stands"],
-                    'time': timestamp_to_ISO(g["last_update"]),
+                    'time': t,
                     'date': d}
     
     
