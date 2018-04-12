@@ -43,4 +43,4 @@ def update(args=None):
 #run main to insert into big table of all stations
 #main()
 #run update to update the realtime info
-update()
+#update()
