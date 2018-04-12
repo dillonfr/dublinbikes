@@ -25,41 +25,22 @@ def main(args=None):
         time.sleep(300)
 
     dubStationInfo.close_db()
-"""
-    try:
-        dhost="dublinbikes.cww5dmspazsv.eu-west-1.rds.amazonaws.com"
-        dport=3306
-        dbname="dublinbikes"
-        duser="dbuser"
-        dpassword="comp30670"
-        cnx = mysql.connector.connect(user = duser, password = dpassword, 
-                                      host = dhost, database=dbname)
+    
+def update(args=None):
+    stationList = dublinbikes.stations_list('Dublin.json')
+    
+    while True:
+        dubStationInfo = dublinbikes.Database()
+        for i in stationList:
+            k = dublinbikes.single_station_info(i)
+            dubStationInfo.update_realtime_info(k)
         
-        
-        #add_info = ("INSERT INTO stations"
-         #      "(testrow) "
-          #     "VALUES (500)")
-        #statInfo = {'number': "500"}
-        cursor = cnx.cursor()
-       # cursor.execute(add_info, statInfo)
-        #query = "INSERT INTO stations (number, name) " \
-        #        "VALUES (%s, %s)"
-        #thing = ('400', 'Stephen')
-        query = "INSERT INTO stations (number, name, latitude, longitude, bikes_available, stands_available) " \
-                    "VALUES (%(number)s, %(name)s, %(latitude)s, %(longitude)s, %(bikes)s, %(stands)s) "
-        cursor.execute(query, k)
-        cursor.execute("SELECT * FROM stations")
-        print(cursor.fetchall())
-        cnx.commit()
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print(err)
-    else:
-        cnx.close()
- """ 
-   
-main()
+        time.sleep(300)
+    
+    dubStationInfo.close_db()
+
+
+#run main to insert into big table of all stations
+#main()
+#run update to update the realtime info
+update()

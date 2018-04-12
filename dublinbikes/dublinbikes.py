@@ -8,6 +8,7 @@ import pandas
 import mysql.connector
 from pprint import pprint
 from datetime import datetime
+from _datetime import date
 
 
 
@@ -83,7 +84,7 @@ class Database:
             dport=3306
             dbname="dublinbikes"
             duser="dbuser"
-            dpassword="comp30670"
+            dpassword="dbpassword1"
             cnx = mysql.connector.connect(user = duser, password = dpassword, 
                                       host = dhost, database=dbname)
             
@@ -98,9 +99,6 @@ class Database:
                 print("Database does not exist")
             else:
                 print(err)
-#             else:
-#                 cnx.close()
-#             
          
         
     def add_station_info(self, statInfo):
@@ -111,6 +109,17 @@ class Database:
         self.connection.commit()
         print("info added")
         
+    def update_realtime_info(self, statInfo):
+        query = """ UPDATE realtime 
+                    SET bikes_available = %(bikes)s,
+                    stands_available = %(stands)s,
+                    time = %(time)s,
+                    date = %(date)s
+                    WHERE number = %(number)s"""
+        self.cur.execute(query, statInfo)
+        self.connection.commit()
+        print("updated")
+        
         
     def close_db(self):
         self.cur.close()
@@ -118,6 +127,3 @@ class Database:
     def test_thing(self):
         return "thing"
       
-#print(stations_list('Dublin.json'))
-#print(query_API(55))
-#information()
