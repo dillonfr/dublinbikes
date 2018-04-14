@@ -21,12 +21,14 @@
         <div id="googleMap"></div>
         
         <div id="dailyDiv">
-            <h2>12/04/2018</h2>
+            <h2 id="todayDate">Todays date</h2>
             <img src="http://openweathermap.org/img/w/04d.png" style = "float: left;margin-left: 15px;">
             <em>9°C</em><br/><br/><br/><br/><br/><br/>Rain<br/><br/><b>Min: </b>7°C<br/><b>Max:  </b>10°C<br/><br/>Moderate Rain
             
         </div>
 
+    <div id="dataframeDiv"></div>
+    <div id="jsdata"></div>
 
     <script type=text/javascript>
     	$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -34,14 +36,45 @@
 
     <script>infoArray = [];</script>
 
+    <script>function getDataFrame () {
+        var jqdataframe = $.getJSON($SCRIPT_ROOT + "/dataframe/1", function(data) {
+            var df = data.df;
+            console.log(df);
+            //console.log(bikes);
+            console.log(typeof df);
+            console.log("dataframe chunk above")
+            document.getElementById("dataframeDiv").innerHTML = bikes;
+        })
+    }
+    </script>
+
+    <script>getDataFrame();</script>
+
     <script>
         function myMap() {
         	var jqxhr = $.getJSON($SCRIPT_ROOT + "/stations", function(data) {
 				var stations = data.stations;
 
 				console.log("stations", stations);
+
+                
+
 				//draw markers
 				stations.forEach(function(stations) {
+                    var markerIcon = "/static/bikeicon.png";
+
+                    var totalStands = stations.bikes_available + stations.stands_available;
+                    console.log(totalStands);
+
+                    console.log(stations.bikes_available < (2 * totalStands / 3));
+
+                    if (stations.bikes_available >= (totalStands / 3) && stations.bikes_available <= (2 * totalStands / 3)) {
+                        markerIcon = "/static/bikeicon-orange.png";
+                    } else if (stations.bikes_available < (totalStands / 3)) {
+                        markerIcon = "/static/bikeicon-red.png";
+                    }
+
+
 					var marker = new google.maps.Marker({
 						position : {
 							lat : stations.latitude,
@@ -49,7 +82,9 @@
 						},
 					map : map,
 					title : stations.name,
-					station_number : stations.number
+					station_number : stations.number,
+                    icon : markerIcon,
+                    //animation: google.maps.Animation.BOUNCE
 					});				
 
 					google.maps.event.addListener(marker, 'click', function() {
@@ -63,7 +98,7 @@
 						infowindow.setContent(contentString);
 						infowindow.open(map, marker);
 
-                        document.getElementById("jsdata").innerHTML = stations.bikes_available;
+                        //document.getElementById("jsdata").innerHTML = stations.bikes_available;
 					});
 				})
 			})
@@ -73,8 +108,14 @@
                 var weatherInfo = data.weatherInfo;
                 console.log(weatherInfo);
                 var actualTemp = weatherInfo.temp - 273.15; //turning kelvin temp to actual temp in degrees celsius
+                actualTemp = (actualTemp).toFixed(1) //rounding to 1 decimal place
 
-                document.getElementById("jsdata").innerHTML = "<h2>The forecast is: " + weatherInfo.detail + "<br>The temperature is: " + actualTemp + "</h2>";
+                var iconCode = weatherInfo.icon;
+                console.log(typeof(iconCode));
+                var icon = "http://openweathermap.org/img/w/" + iconCode + ".png";
+
+                document.getElementById("jsdata").innerHTML = "<h2>The forecast is: " + weatherInfo.detail + "<br>The temperature is: " + actualTemp + "</h2>" + 
+                "<img src=" + icon + ">";
                 
 
             })
@@ -91,6 +132,7 @@
         }
         google.maps.event.addDomListener(window, 'load', myMap);
     </script>
+
 
 
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAMns2Y33xj53IYHDDwQQb5P-R2mi5nxQk&callback=myMap"></script>

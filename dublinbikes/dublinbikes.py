@@ -124,6 +124,4 @@ class Database:
     def close_db(self):
         self.cur.close()
         self.connection.close()
-    def test_thing(self):
-        return "thing"
       

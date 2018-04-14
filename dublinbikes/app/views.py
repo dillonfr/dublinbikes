@@ -8,6 +8,7 @@ import re
 import requests
 import sqlite3
 from _sqlite3 import Row
+import pandas as pd
 
 
 def connect_to_database():
@@ -35,7 +36,8 @@ def query_weather():
     weatherInfo= {'main': r['weather'][0]['main'], 
                      'detail': r['weather'][0]['description'], 
                      'temp': r['main']['temp'], 
-                     'wind': r['wind']['speed']}
+                     'wind': r['wind']['speed'],
+                     'icon': r['weather'][0]['icon']}
     print(weatherInfo)
     return jsonify(weatherInfo=weatherInfo)
 
@@ -49,6 +51,17 @@ def get_stations(station_id):
         data.append(dict(row))
         
     return jsonify(available=data)
+
+@app.route("/dataframe/<int:station_id>")
+def get_dataframe(station_id):
+    engine = get_db()
+    #params = {"number": station_id}
+    sql = """select bikes_available, stands_available, time from stations where number= {} and date = '2018-04-09';""".format(station_id)
+    #.format(**params)
+    df = pd.read_sql_query(sql, engine)
+    df = df.to_json(orient='index')
+    df = json.loads(df)
+    return jsonify(df=df)
 
 
 @app.route('/', methods=['GET'])
