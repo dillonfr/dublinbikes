@@ -55,9 +55,9 @@ def get_stations(station_id):
 @app.route("/dataframe/<int:station_id>")
 def get_dataframe(station_id):
     engine = get_db()
-    #params = {"number": station_id}
+    
     sql = """select bikes_available, stands_available, time from stations where number= {} and date = '2018-04-09';""".format(station_id)
-    #.format(**params)
+    
     df = pd.read_sql_query(sql, engine)
     df = df.to_json(orient='index')
     df = json.loads(df)
@@ -67,7 +67,6 @@ def get_dataframe(station_id):
 @app.route('/', methods=['GET'])
 def index():
     returnDict = {}
-    returnDict['user'] = 'User123'
     returnDict['title'] = 'Dublin Bikes'
     return render_template("index1.html", **returnDict)
     

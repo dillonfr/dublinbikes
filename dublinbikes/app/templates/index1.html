@@ -29,6 +29,14 @@
 
     <div id="dataframeDiv"></div>
     <div id="jsdata"></div>
+    <div id="key">
+        <ul>Bikes available:
+            <li><img src="/static/bikeicon.png">: High</li>
+            <li><img src="/static/bikeicon-orange.png">: Medium</li>
+            <li><img src="/static/bikeicon-red.png">: Low</li>
+            <li><img src="/static/bikeicon-black.png">: None</li>
+        </ul>
+    </div>
 
     <script type=text/javascript>
     	$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
@@ -68,7 +76,9 @@
 
                     console.log(stations.bikes_available < (2 * totalStands / 3));
 
-                    if (stations.bikes_available >= (totalStands / 3) && stations.bikes_available <= (2 * totalStands / 3)) {
+                    if (stations.bikes_available == 0) {
+                        markerIcon = "/static/bikeicon-black.png";
+                    } else if (stations.bikes_available >= (totalStands / 3) && stations.bikes_available <= (2 * totalStands / 3)) {
                         markerIcon = "/static/bikeicon-orange.png";
                     } else if (stations.bikes_available < (totalStands / 3)) {
                         markerIcon = "/static/bikeicon-red.png";

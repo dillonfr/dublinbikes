@@ -80,3 +80,8 @@ em{
 h1, h6 {
     text-align: center;
 }
+
+#key img {
+    height: 37px;
+    width: 37px;
+}
