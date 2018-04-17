@@ -1,9 +1,24 @@
+html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+}
 body{
-    margin:0px;
-    padding:0px;
     background-color: lightslategrey;
 }
-#dailyDiv{
+h1{
+    margin:0px;
+    padding-top: 10px;
+    font-family: bell mt;
+    font-size: 40px;
+    color: white;
+    text-align: center;
+}
+h2{
+    color: white;
+    font: Ironclad;
+}
+#weatherDiv{
     color:black;
     border-right:4px solid rgb(8,75,84);
     border-bottom:4px solid rgb(8,75,84);
@@ -28,7 +43,6 @@ img{
     margin:0px;
     
 }
-
 #googleMap {
     height: 50%;
     width: 50%;
@@ -39,49 +53,61 @@ img{
     border-bottom:4px solid rgb(8,75,84);
     float: left;
 }
-h1{
-    margin:0px;
-    padding-top: 10px;
-    font-family: bell mt;
-    font-size: 40px;
-    color: white;
-}
-h2{
-    color: white;
-}
 #line{
-    border-top: 1px solid black;
-    width: 350px;
-    position:relative;
-    left:23%;
-    padding:0px;
-    padding-bottom: 5px;
-    margin:0px;
+    border-bottom: 4px solid rgb(8,75,84);
+    width: 290px;
+    height:5px;
+    margin: auto;
+    margin-top:80px;
+    padding-bottom: 0px;
 }
-
-#station_availability h1 {
-	color: blue;
+#chartDiv{
+    position:absolute;
+    width: 1000px;
+    height:350px;
+}
+#extraStationInfo{
+    text-align: center;
+    background-color: rgb(8,75,84);
+    width:200px;
+    margin: auto;
+    color:white;
+    border-radius: 0px 0px 20px 20px;
+}
+#temp{
+    width: 150px;
+    float:right;
+    letter-spacing: 1px;
+    margin-right: 10px;
+    margin-top: 20px;
+    color:white;
+    font-size: 16px;
+}
+#icon{
+    width: 125px;
+    float: left;
+    color:white;
+    font-size:20px;
+}
+.keys{
+    width:60px;
+    height:60px;
+}
+#k{
+    padding-top:20px;
+    margin-left:30px;
+    margin-top: 10px;
+    width: 250;
+    text-align: left;
 }
 b{
-    font-size: 20px;
-}
-html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
+    font-size: 15px;
 }
 em{
-    padding-bottom: 0px;
-    margin-bottom: 0px;
+    padding:0px;
+    margin:0px;
+    margin-top: 5px;
     font: baskerville;
     font-size: 40px;
     color: white;
-}
-h1, h6 {
-    text-align: center;
-}
-
-#key img {
-    height: 37px;
-    width: 37px;
 }

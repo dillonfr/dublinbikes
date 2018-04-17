@@ -23,7 +23,7 @@ class MyTest(unittest.TestCase):
     
     def test_single_station(self):
         result = dublinbikes.single_station_info("5")
-        self.assertEqual(len(result), 8) #should return 8 pieces of info
+        self.assertEqual(len(result), 8) #should return 8 pieces of info we want
         self.assertEqual(type(result['number']), int)
         self.assertEqual(result['number'], 5)
         self.assertLessEqual(result['bikes'], 50)
