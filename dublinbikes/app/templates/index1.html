@@ -50,6 +50,7 @@
                         markerIcon = "/static/bikeicon-red.png";
                     }
                     
+                    //Plotting markers
                     var marker = new google.maps.Marker({
                         position : {
                             lat : stations.latitude,
@@ -61,6 +62,7 @@
                         icon : markerIcon,
                     });                
 
+                    //When a marker is clicked, close the other infowindow before opening the new one
                     google.maps.event.addListener(marker, 'click', function() {
                        for (var i=0;i<infoArray.length;i++) {
                            infoArray[i].close();
@@ -68,8 +70,7 @@
                        var infowindow = new google.maps.InfoWindow();
                        infoArray.push(infowindow);
                         
-//                      Creates information box including bike and stand availability with the option for more info. 
-//                      The more info button will display a graph of the average occupancy for that station for the current //                      day. For example if the web page is loaded on a monday, all info buttons will return plot a graph //                      of the average occupancy for a full monday. The realtime data is updated every 5 minutes to ensure //                      the user sees regularly up to date info.
+/* Creates information box including bike and stand availability with the option for more info. The more info button will display a graph of the average occupancy for that station for the current day. For example if the web page is loaded on a monday, all info buttons will return plot a graph of the average occupancy for a full monday. The realtime data is updated every 5 minutes to ensure the user sees regularly up to date info.*/
                         contentString = '<div id = "content"><h3>' + stations.name + '</h3></div>' + '<div id="station_availability"><h3>Bikes available: ' + stations.bikes_available + '<br> Stands available: ' + stations.stands_available + '</h3><button type="button" onclick = "getDataframe(' + stations.number + ',' + new Date().getDay() + ');addButtons('+ stations.number + ')">More Info</button></div>';
                         infowindow.setContent(contentString);
                         infowindow.open(map, marker);
