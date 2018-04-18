@@ -24,7 +24,7 @@ h2{
     border-bottom:4px solid rgb(8,75,84);
     background: linear-gradient(rgba(8,75,84,1), white);
     width: 288px;
-    height: 50%;
+    height: 410px;
     display:inline-block;
     text-align: center; 
     float: left;
@@ -44,8 +44,8 @@ img{
     
 }
 #googleMap {
-    height: 50%;
     width: 50%;
+    height: 410px;
     min-width: 700px;
     min-height: 300px;
     border-right:4px solid rgb(8,75,84);
