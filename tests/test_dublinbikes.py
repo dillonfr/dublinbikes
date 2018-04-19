@@ -6,6 +6,7 @@ import sys
 sys.path.append('.')
 import pytest
 import unittest
+import mysql.connector
 
 from click.testing import CliRunner
 
@@ -27,3 +28,18 @@ class MyTest(unittest.TestCase):
         self.assertEqual(type(result['number']), int)
         self.assertEqual(result['number'], 5)
         self.assertLessEqual(result['bikes'], 50)
+        
+    def test_print_station_info(self):
+        dhost="dublinbikes.cww5dmspazsv.eu-west-1.rds.amazonaws.com"
+        dport=3306
+        dbname="dublinbikes"
+        duser="dbuser"
+        dpassword="dbpassword1"
+        cnx = mysql.connector.connect(user = duser, password = dpassword, 
+                                      host = dhost, database=dbname)
+            
+            
+        self.connection = cnx
+        self.cur = cnx.cursor()
+        self.cur.execute("SELECT latitude, longitude, bikes_available, stands_available FROM realtime WHERE number=\"1\"")
+        print(self.cur.fetchall())

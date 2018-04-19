@@ -39,7 +39,7 @@ Running Tests
 -------
 Test file can be run using pytest:
 
-	`$ pytest`
+	`$ pytest -s`
 
 Credits
 -------

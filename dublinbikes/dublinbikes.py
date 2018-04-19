@@ -30,31 +30,6 @@ def stations_list(fileName):
         stations.append(i["number"])
         stations.sort()
     return stations
-
-def timestamp_to_ISO(timestamp):
-    moment = datetime.fromtimestamp(timestamp / 1000)
-    return moment.time().isoformat()
- 
-def info_csv():
-    stations = stations_list('Dublin.json')
-    
-    #Save information for all stations in a csv
-    #-------------------------------------------
-    with open('info.csv', 'w') as csvfile:
-        fieldnames = ['number', 'name', 'latitude', 'longitude', 'bikes', 'stands']
-        writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
-        writer.writeheader() 
-
-        for i in stations:
-            g = query_API(i) 
-            station_info = {'number': g["number"], 
-                    'name': g["name"], 
-                    'latitude': g["position"]["lat"], 
-                    'longitude': g["position"]["lng"], 
-                    'bikes': g["available_bikes"], 
-                    'stands': g["available_bike_stands"]}
-            writer.writerow(station_info)
-    #-------------------------------------------
     
 def single_station_info(stationNumber):
     g = query_API(stationNumber) 
@@ -74,8 +49,6 @@ def single_station_info(stationNumber):
         
     
 class Database:
-    
-
     def __init__(self):
         
         from mysql.connector import errorcode
@@ -120,6 +93,7 @@ class Database:
         self.connection.commit()
         print("updated")
         
+    
         
     def close_db(self):
         self.cur.close()
